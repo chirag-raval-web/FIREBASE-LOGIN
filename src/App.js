@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { useSelector } from "react-redux";
+import AuthForm from "./components/AuthForm"; // Path to your AuthForm component
+import UserProfile from "./components/UserProfile"; // Path to your UserProfile component
 
-function App() {
+const App = () => {
+  const { isAuthenticated } = useSelector((state) => state.auth);
+
+  console.log("Authentication state:", isAuthenticated);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        <Route
+          path="/"
+          element={isAuthenticated ? <UserProfile /> : <AuthForm />}
+        />
+        <Route
+          path="/profile"
+          element={isAuthenticated ? <UserProfile /> : <AuthForm />}
+        />
+      </Routes>
+    </Router>
   );
-}
+};
 
 export default App;
